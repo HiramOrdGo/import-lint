@@ -1,9 +1,7 @@
-import 'package:analyzer/dart/analysis/analysis_context.dart'
-    show AnalysisContext;
+import 'package:analyzer/dart/analysis/analysis_context.dart' show AnalysisContext;
 import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
-import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart'
-    show DriverBasedAnalysisContext;
-import 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
+import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart' show DriverBasedAnalysisContext;
+import 'package:analyzer/src/workspace/pub.dart' show PubPackage;
 import 'package:import_lint/src/analyzer/issue.dart';
 import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/analyzer/visitor.dart';
@@ -46,8 +44,7 @@ class DriverBasedAnalysisContextAnalyzer implements Analyzer {
       config.rules,
       filePathResourceLocator,
       (directive, rule) {
-        final source =
-            ImportSource.fromImportDirective(result.unit.lineInfo, directive);
+        final source = ImportSource.fromImportDirective(result.unit.lineInfo, directive);
         issues.add(Issue(result.path, rule, source));
       },
     ));
@@ -72,9 +69,8 @@ class DriverBasedAnalysisContextAnalyzer implements Analyzer {
   String _packageFromPath(
     String path,
   ) {
-    final workspacePackage =
-        _context.contextRoot.workspace.findPackageFor(path);
-    if (workspacePackage is! PubWorkspacePackage) {
+    final workspacePackage = _context.contextRoot.workspace.findPackageFor(path);
+    if (workspacePackage is! PubPackage) {
       throw InternalException('workspacePackage is not PubWorkspacePackage');
     }
 
